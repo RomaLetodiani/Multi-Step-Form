@@ -5,6 +5,8 @@ interface AuthenticatedRequest extends Request {
   userId?: string;
 }
 
+const secretKey = process.env.SECRET_KEY || '';
+
 export const authenticateUser = (
   req: AuthenticatedRequest,
   res: Response,
@@ -12,7 +14,12 @@ export const authenticateUser = (
 ) => {
   // Split the Authorization header (if present) to extract the token
   const authHeader = req.header('Authorization');
-  const token = authHeader && authHeader.split(' ')[1]; // Extract token after "Bearer "
+  if (!authHeader) {
+    return res
+      .status(401)
+      .json({ message: 'Unauthorized: Missing authorization header' });
+  }
+  const token = authHeader.split(' ')[1]; // Extract token after "Bearer "
 
   if (!token) {
     return res
@@ -21,10 +28,17 @@ export const authenticateUser = (
   }
 
   try {
-    const decoded = jwt.verify(token, 'your-secret-key') as { userId: string };
+    const decoded = jwt.verify(token, secretKey) as { userId: string };
     req.userId = decoded.userId;
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Invalid token' });
+    if (error instanceof jwt.TokenExpiredError) {
+      return res.status(401).json({ message: 'Token expired' });
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      return res.status(401).json({ message: 'Invalid token format' });
+    } else {
+      // Handle other errors
+      return res.status(500).json({ message: 'Internal server error' });
+    }
   }
 };
