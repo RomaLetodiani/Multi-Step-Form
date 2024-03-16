@@ -1,13 +1,7 @@
 import 'dotenv/config';
 import mongoose, { Schema, Document } from 'mongoose';
 import bcrypt from 'bcrypt';
-
-const MONGODB_URI = process.env.MONGODB_URI || '';
-
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((error) => console.error('Error connecting to MongoDB:', error));
+import { validateEmail } from '../utils/validation';
 
 export interface UserDocument extends Document {
   name: string;
@@ -17,6 +11,13 @@ export interface UserDocument extends Document {
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
+const MONGODB_URI = process.env.MONGODB_URI || '';
+
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((error) => console.error('Error connecting to MongoDB:', error));
+
 const userSchema: Schema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -25,20 +26,30 @@ const userSchema: Schema = new Schema({
 });
 
 userSchema.pre<UserDocument>('save', async function (next) {
-  const user = this;
-  if (!user.isModified('password')) return next();
+  if (!this.isModified('password')) return next();
 
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(user.password, salt);
-  user.password = hashedPassword;
-  next();
+  if (!validateEmail(this.email)) {
+    throw new Error('Invalid email format');
+  }
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error as Error);
+  }
 });
 
 // Method to compare passwords
 userSchema.methods.comparePassword = async function (
   candidatePassword: string
 ) {
-  return await bcrypt.compare(candidatePassword, this.password);
+  try {
+    return await bcrypt.compare(candidatePassword, this.password);
+  } catch (error) {
+    return false;
+  }
 };
 
 export const UserModel = mongoose.model<UserDocument>('User', userSchema);
