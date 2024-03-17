@@ -1,43 +1,34 @@
 import 'dotenv/config';
 import mongoose, { Schema, Document } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { validateEmail } from '../utils/validation';
 
 export interface UserDocument extends Document {
-  name: string;
+  username: string;
   email: string;
   password: string;
   verified: boolean;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
-const MONGODB_URI = process.env.MONGODB_URI || '';
-
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((error) => console.error('Error connecting to MongoDB:', error));
-
-const userSchema: Schema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  verified: { type: Boolean, default: false },
-});
+const userSchema: Schema = new Schema(
+  {
+    username: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    verified: { type: Boolean, default: false },
+  },
+  { versionKey: false }
+);
 
 userSchema.pre<UserDocument>('save', async function (next) {
-  if (!this.isModified('password')) return next();
-
-  if (!validateEmail(this.email)) {
-    throw new Error('Invalid email format');
-  }
+  if (!this.isModified('password')) next();
 
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
   } catch (error) {
-    next(error as Error);
+    next(new Error('Error hashing password'));
   }
 });
 
@@ -48,8 +39,9 @@ userSchema.methods.comparePassword = async function (
   try {
     return await bcrypt.compare(candidatePassword, this.password);
   } catch (error) {
+    console.error('Error comparing passwords:', error); // Log for debugging
     return false;
   }
 };
 
-export const UserModel = mongoose.model<UserDocument>('User', userSchema);
+export const User = mongoose.model<UserDocument>('User', userSchema);
