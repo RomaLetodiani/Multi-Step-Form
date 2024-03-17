@@ -1,76 +1,73 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express'
 
-const errorHandler = (
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   // uncomment the following line for Debug mode
   // console.error(err.stack);
-  let errorMessage = err.message;
-  if (err instanceof UserNotFoundError) {
-    res.status(404).json({ message: errorMessage });
-  } else if (err instanceof AuthenticationError) {
-    res.status(400).json({ message: 'Unauthorized: ' + err.message });
-    errorMessage = 'Unauthorized: ' + err.message;
+
+  let errorMessage = err.message
+  if (err instanceof AuthenticationError) {
+    res.status(401).json({ message: 'Unauthorized: ' + err.message })
+    errorMessage = 'Unauthorized: ' + err.message
   } else if (err instanceof ValidationError) {
-    res.status(400).json({ message: err.message, field: err.field });
-    errorMessage = 'Validation Error: ' + err.message;
+    res.status(400).json({ message: err.message, field: err.field })
+    errorMessage = 'Validation Error: ' + err.message
   } else if (err instanceof UserRegistrationError) {
-    res.status(401).json({ message: err.message });
-    errorMessage = 'User registration Error: ' + err.message;
+    res.status(401).json({ message: err.message })
+    errorMessage = 'User registration Error: ' + err.message
   } else if (err instanceof UserLoginError) {
-    res.status(401).json({ message: err.message });
-    errorMessage = 'User Login Error: ' + err.message;
-  } else if (err instanceof UserLogoutError) {
-    res.status(401).json({ message: err.message });
-    errorMessage = 'User Logout Error: ' + err.message;
+    res.status(401).json({ message: err.message })
+    errorMessage = 'User Login Error: ' + err.message
+  } else if (err instanceof UserUpdateError) {
+    res.status(401).json({ message: err.message })
+    errorMessage = 'User Update Error: ' + err.message
+  } else if (err instanceof EmailVerificationError) {
+    res.status(400).json({ message: err.message })
+    errorMessage = 'Email Verification Error: ' + err.message
   } else {
-    res.status(500).json({ message: 'Internal Server Error ' });
+    res.status(500).json({ message: 'Internal Server Error ' })
   }
-  console.error(errorMessage);
-};
+  console.error(errorMessage)
+}
 
 class AuthenticationError extends Error {
   constructor(message: string) {
-    super(message);
-    this.name = 'AuthenticationError';
+    super(message)
+    this.name = 'AuthenticationError'
   }
 }
 
 class ValidationError extends Error {
   constructor(public field: string, message: string) {
-    super(message);
-    this.name = 'ValidationError';
+    super(message)
+    this.name = 'ValidationError'
   }
 }
 
 class UserRegistrationError extends Error {
   constructor(message: string) {
-    super(message);
-    this.name = 'UserCreationError';
+    super(message)
+    this.name = 'UserCreationError'
   }
 }
 
 class UserLoginError extends Error {
   constructor(message: string) {
-    super(message);
-    this.name = 'UserLoginError';
+    super(message)
+    this.name = 'UserLoginError'
   }
 }
 
-class UserLogoutError extends Error {
+class UserUpdateError extends Error {
   constructor(message: string) {
-    super(message);
-    this.name = 'UserLogoutError';
+    super(message)
+    this.name = 'UserUpdateError'
   }
 }
 
-class UserNotFoundError extends Error {
-  constructor() {
-    super('User Not Found');
-    this.name = 'UserNotFoundError';
+class EmailVerificationError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'EmailVerificationError'
   }
 }
 
@@ -80,6 +77,6 @@ export {
   ValidationError,
   UserRegistrationError,
   UserLoginError,
-  UserLogoutError,
-  UserNotFoundError,
-};
+  UserUpdateError,
+  EmailVerificationError,
+}
