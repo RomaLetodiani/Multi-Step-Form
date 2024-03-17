@@ -13,3 +13,5 @@ This file documents the environment variables required for the application. Thes
 ### PORT
 
 - **Description**: Port number on which the server will run.
+
+### JTW_SECRET_KEY
