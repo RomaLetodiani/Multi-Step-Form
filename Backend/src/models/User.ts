@@ -1,47 +1,58 @@
-import 'dotenv/config';
-import mongoose, { Schema, Document } from 'mongoose';
-import bcrypt from 'bcrypt';
+import mongoose, { Schema, Document } from 'mongoose'
+import bcrypt from 'bcrypt'
+import { hashPassword } from '../utils/auth'
+
+export interface Verification {
+  verified: boolean
+  verificationCode: string | null
+  verificationCodeExpiresAt: Date | null
+  lastVerificationRequestAt: Date | null
+}
+
+const verificationSchema: Schema = new Schema({
+  verified: { type: Boolean, required: true, default: false },
+  verificationCode: { type: String, default: null },
+  verificationCodeExpiresAt: { type: Date, default: null },
+  lastVerificationRequestAt: { type: Date, default: null },
+})
 
 export interface UserDocument extends Document {
-  username: string;
-  email: string;
-  password: string;
-  verified: boolean;
-  comparePassword(candidatePassword: string): Promise<boolean>;
+  username: string
+  email: string
+  password: string
+  verification: Verification
+  comparePassword(candidatePassword: string): Promise<boolean>
 }
 
 const userSchema: Schema = new Schema(
   {
-    username: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    username: { type: String, unique: true, required: true },
+    email: { type: String, required: true },
     password: { type: String, required: true },
-    verified: { type: Boolean, default: false },
+    verification: { type: verificationSchema, default: {} },
   },
-  { versionKey: false }
-);
+  { versionKey: false },
+)
 
 userSchema.pre<UserDocument>('save', async function (next) {
-  if (!this.isModified('password')) next();
+  if (!this.isModified('password')) next()
 
   try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
+    this.password = await hashPassword(this.password)
+    next()
   } catch (error) {
-    next(new Error('Error hashing password'));
+    next(new Error('Error hashing password'))
   }
-});
+})
 
 // Method to compare passwords
-userSchema.methods.comparePassword = async function (
-  candidatePassword: string
-) {
+userSchema.methods.comparePassword = async function (candidatePassword: string) {
   try {
-    return await bcrypt.compare(candidatePassword, this.password);
+    return await bcrypt.compare(candidatePassword, this.password)
   } catch (error) {
-    console.error('Error comparing passwords:', error); // Log for debugging
-    return false;
+    console.error('Error comparing passwords:', error) // Log for debugging
+    return false
   }
-};
+}
 
-export const User = mongoose.model<UserDocument>('User', userSchema);
+export const User = mongoose.model<UserDocument>('User', userSchema)
