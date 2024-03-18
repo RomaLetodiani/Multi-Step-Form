@@ -1,24 +1,21 @@
-// routes/userRoutes.ts
-import express from 'express';
-import {
-  createUser,
-  loginUser,
-  logoutUser,
-  getUserDetails,
-} from '../controllers/UserController';
-import { authenticateUser } from '../middlewares/authentication';
+import express from 'express'
+import UserController from '../controllers/UserController'
+import { emailVerificationRateLimiter } from '../middlewares/emailVerificationRateLimiter'
+import { authenticateUser } from '../middlewares/authMiddleware'
 
-const router = express.Router();
+const router = express.Router()
+const userController = new UserController()
 
-router.post('/create', createUser);
+// Get user details (Authentication required)
+router.get('/details', authenticateUser, userController.getUserDetails)
 
-// Login user
-router.post('/login', loginUser);
+// Update a user (Authentication required)
+router.put('/update', authenticateUser, userController.updateUser)
 
-// Logout user (if needed)
-router.post('/logout', authenticateUser, logoutUser);
+// Delete a user (Authentication required)
+router.delete('/', authenticateUser, userController.deleteUser)
 
-// Get user details
-router.get('/details', authenticateUser, getUserDetails);
+// Send an verification email (Authentication required)
+router.post('/sendEmail', emailVerificationRateLimiter, authenticateUser, userController.sendEmail)
 
-export default router;
+export default router
