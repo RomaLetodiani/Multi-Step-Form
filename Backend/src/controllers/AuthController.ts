@@ -28,7 +28,7 @@ class AuthController {
     });
   });
 
-  logoutUser = asyncHandler(async (req: Request, res: Response) => {
+  logoutUser = asyncHandler(async (__, res: Response) => {
     await this.authServices.logout(res);
     res.status(200).json({ message: 'User logged out successfully' });
   });
