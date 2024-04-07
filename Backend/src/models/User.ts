@@ -1,16 +1,15 @@
 import mongoose, { Schema, Document } from 'mongoose'
 import bcrypt from 'bcrypt'
 import { hashPassword } from '../utils/auth'
+import { Subscription } from './Subscription'
 
 export interface Verification {
-  verified: boolean
   verificationCode: string | null
   verificationCodeExpiresAt: Date | null
   lastVerificationRequestAt: Date | null
 }
 
 const verificationSchema: Schema = new Schema({
-  verified: { type: Boolean, required: true, default: false },
   verificationCode: { type: String, default: null },
   verificationCodeExpiresAt: { type: Date, default: null },
   lastVerificationRequestAt: { type: Date, default: null },
@@ -20,7 +19,9 @@ export interface UserDocument extends Document {
   username: string
   email: string
   password: string
-  verification: Verification
+  verified: boolean
+  subscription: string | null
+  verificationCode: Verification
   comparePassword(candidatePassword: string): Promise<boolean>
 }
 
@@ -29,9 +30,11 @@ const userSchema: Schema = new Schema(
     username: { type: String, unique: true, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    verification: { type: verificationSchema, default: {} },
+    verified: { type: Boolean, required: true, default: false },
+    subscription: { type: Schema.Types.ObjectId, ref: 'Subscription', default: null },
+    verificationCode: { type: verificationSchema, default: {} },
   },
-  { versionKey: false },
+  { versionKey: false, timestamps: true },
 )
 
 userSchema.pre<UserDocument>('save', async function (next) {
@@ -43,6 +46,10 @@ userSchema.pre<UserDocument>('save', async function (next) {
   } catch (error) {
     next(new Error('Error hashing password'))
   }
+})
+
+userSchema.post<UserDocument>('findOneAndDelete', async function (doc: UserDocument) {
+  if (doc.subscription) await Subscription.findOneAndDelete({ _id: doc.subscription })
 })
 
 // Method to compare passwords
