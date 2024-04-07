@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import express from 'express'
+import express, { Application } from 'express'
 import userRoutes from './routes/userRoutes'
 import authRoutes from './routes/authRoutes'
 import subscribeRoutes from './routes/subscribeRoutes'
@@ -13,8 +13,6 @@ import { authRateLimiter } from './middlewares/authRateLimiter'
 import { authenticateUser } from './middlewares/authMiddleware'
 import { UserDocument } from './models/User'
 
-dotenv.config()
-
 declare global {
   namespace Express {
     interface Response {
@@ -23,8 +21,8 @@ declare global {
   }
 }
 
-const app = express()
-const PORT = process.env.PORT || 5000
+const app: Application = express()
+dotenv.config()
 
 // Security: Enable additional helmet protections (consider tailoring these based on your needs)
 app.use(helmet.contentSecurityPolicy()) // Content Security Policy for script and resource restrictions
@@ -42,10 +40,6 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`)
-})
-
 // subscribeRoutes
 app.use('/api/subscription', authenticateUser, subscribeRoutes)
 // authRoutes
@@ -54,5 +48,11 @@ app.use('/api/auth', authRateLimiter, authRoutes)
 app.use('/api/users', userRoutes)
 
 app.use(errorHandler)
+
+const PORT = process.env.PORT || 5000
+
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`)
+})
 
 ConnectMongoDB()
