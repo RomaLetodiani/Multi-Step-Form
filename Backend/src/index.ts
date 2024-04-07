@@ -35,10 +35,6 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use('/', (req, res) => {
-  res.send('hello world')
-})
-
 // subscribeRoutes
 app.use('/api/subscription', authenticateUser, subscribeRoutes)
 // authRoutes
