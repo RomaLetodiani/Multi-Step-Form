@@ -21,14 +21,6 @@ const sendEmail = async (
       from: process.env.EMAIL,
       to: email,
       subject,
-      //   text: `Hi ${username},
-
-      // Please use this code to ${subject}:
-      // ${verificationCode}
-
-      // If you did not make this request, please ignore this email.
-      // Sincerely,
-      // ${process.env.APP_NAME}`,
       html: `
       <!DOCTYPE html>
       <html lang="en">
@@ -96,7 +88,8 @@ const sendEmail = async (
         <h1>Hi ${username},</h1>
         <p>Please use this code to ${subject}:</p>
         <p class="verification-code">${verificationCode}</p>
-        <p>If you did not make this request, please ignore this email.</p>
+        <br />
+        <p>If you did not make this request, please ignore this message.</p>
         <p class="footer">Sincerely, <br>${process.env.APP_NAME}</p>
       </div>
       </body>
