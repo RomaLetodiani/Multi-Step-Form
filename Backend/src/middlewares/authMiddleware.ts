@@ -19,7 +19,10 @@ export const authenticateUser = asyncHandler(
         throw new AuthenticationError('User not found')
       }
 
-      const user = await User.findById(decoded.userId, '_id username email verification')
+      const user = await User.findById(
+        decoded.userId,
+        '_id username email verified subscription',
+      ).populate('subscription')
       if (!user) {
         throw new AuthenticationError('User not found')
       }
@@ -29,6 +32,7 @@ export const authenticateUser = asyncHandler(
       if (err instanceof AuthenticationError) {
         return next(err)
       } else {
+        console.log(err)
         throw new AuthenticationError('Invalid token')
       }
     }
