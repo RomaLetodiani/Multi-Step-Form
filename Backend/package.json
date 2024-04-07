@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "build": "tsc"
+    "build": "npm install && tsc"
   },
   "dependencies": {
     "@types/express": "^4.17.21",
