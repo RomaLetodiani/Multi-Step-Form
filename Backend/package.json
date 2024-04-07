@@ -6,8 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "build": "tsc",
-    "ts.check": "tsc --project tsconfig.json"
+    "build": "tsc"
   },
   "dependencies": {
     "@types/express": "^4.17.21",
