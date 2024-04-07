@@ -38,7 +38,7 @@ class UserServices {
     )
   }
   async deleteUser(res: Response) {
-    const user = await User.findByIdAndDelete(res.user?._id)
+    const user = await User.findOneAndDelete({ _id: res.user?._id })
     clearToken(res)
 
     return user
@@ -46,13 +46,13 @@ class UserServices {
 
   async sendEmail(req: Request, res: Response) {
     const user = await User.findById(res.user?._id)
-    if (user?.verification.verified) {
+    if (user?.verified) {
       throw new EmailVerificationError('Email already verified')
     }
 
     // Check if 30 seconds have passed since the last request
     const now = new Date()
-    const lastRequest = user?.verification.lastVerificationRequestAt
+    const lastRequest = user?.verificationCode.lastVerificationRequestAt
 
     if (lastRequest && now.getTime() - lastRequest.getTime() < 30000) {
       throw new EmailVerificationError(
@@ -73,15 +73,43 @@ class UserServices {
         },
       )
 
-      user.verification.verificationCode = verificationCode
-      user.verification.verificationCodeExpiresAt = verificationCodeExpiresAt
-      user.verification.lastVerificationRequestAt = now
+      user.verificationCode.verificationCode = verificationCode
+      user.verificationCode.verificationCodeExpiresAt = verificationCodeExpiresAt
+      user.verificationCode.lastVerificationRequestAt = now
 
       await user.save()
     }
   }
 
-  async verifyEmail(req: Request, res: Response) {}
+  async verifyEmail(req: Request, res: Response) {
+    const user = await User.findById(res.user?._id)
+    if (user?.verified) {
+      throw new EmailVerificationError('User already verified')
+    }
+
+    const { verificationCode } = req.body
+
+    if (!verificationCode) throw new EmailVerificationError('Please provide a verification code')
+
+    const verificationCodeExpiresAt = user?.verificationCode.verificationCodeExpiresAt
+    if (!verificationCodeExpiresAt || verificationCodeExpiresAt.getTime() < new Date().getTime()) {
+      throw new EmailVerificationError('Verification code has expired')
+    }
+
+    const verificationCodeMatches = user?.verificationCode.verificationCode === verificationCode
+    if (!verificationCodeMatches) {
+      throw new EmailVerificationError('Wrong Verification code')
+    }
+
+    user.verified = true
+    user.verificationCode = {
+      verificationCode: null,
+      verificationCodeExpiresAt: null,
+      lastVerificationRequestAt: null,
+    }
+
+    await user.save()
+  }
 }
 
 export default UserServices
