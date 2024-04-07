@@ -23,6 +23,9 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
   } else if (err instanceof EmailVerificationError) {
     res.status(400).json({ message: err.message })
     errorMessage = 'Email Verification Error: ' + err.message
+  } else if (err instanceof SubscriptionError) {
+    res.status(400).json({ message: err.message })
+    errorMessage = 'User Subscription Error: ' + err.message
   } else {
     res.status(500).json({ message: 'Internal Server Error ' })
   }
@@ -71,6 +74,13 @@ class EmailVerificationError extends Error {
   }
 }
 
+class SubscriptionError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'SubscriptionError'
+  }
+}
+
 export {
   errorHandler,
   AuthenticationError,
@@ -79,4 +89,5 @@ export {
   UserLoginError,
   UserUpdateError,
   EmailVerificationError,
+  SubscriptionError,
 }
