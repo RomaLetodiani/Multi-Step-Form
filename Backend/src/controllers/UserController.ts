@@ -39,4 +39,4 @@ class UserController {
   })
 }
 
-export default UserController
+export default new UserController()

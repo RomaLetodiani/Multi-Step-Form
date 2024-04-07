@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import userRoutes from './routes/userRoutes'
 import authRoutes from './routes/authRoutes'
+import subscribeRoutes from './routes/subscribeRoutes'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import helmet from 'helmet'
@@ -9,22 +10,15 @@ import cookieParser from 'cookie-parser'
 import ConnectMongoDB from './Database/ConnectMongoDB'
 import { errorHandler } from './middlewares/errorMiddleware'
 import { authRateLimiter } from './middlewares/authRateLimiter'
+import { authenticateUser } from './middlewares/authMiddleware'
+import { UserDocument } from './models/User'
 
 dotenv.config()
-
-export interface UserBasicInfo {
-  _id: string
-  username: string
-  email: string
-  verification: {
-    verified: boolean
-  }
-}
 
 declare global {
   namespace Express {
     interface Response {
-      user?: UserBasicInfo | null
+      user?: UserDocument
     }
   }
 }
@@ -52,6 +46,9 @@ app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`)
 })
 
+// subscribeRoutes
+app.use('/api/subscription', authenticateUser, subscribeRoutes)
+// authRoutes
 app.use('/api/auth', authRateLimiter, authRoutes)
 // userRoutes
 app.use('/api/users', userRoutes)
