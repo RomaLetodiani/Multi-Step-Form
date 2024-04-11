@@ -15,7 +15,7 @@ const ThemeSwitcher = () => {
   const { theme, setTheme } = useThemeStore()
   return (
     <div
-      className={`absolute z-50 ${
+      className={`absolute w-8 h-8 z-50 ${
         pathname === '/' ? `right-8 top-8 text-white` : `right-4 top-4 text-${theme}-text`
       } transition-all ease-in duration-300`}
     >

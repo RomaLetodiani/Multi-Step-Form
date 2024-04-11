@@ -1,7 +1,7 @@
 export const Sun = (
   <svg
-    width="30px"
-    height="30px"
+    width="32px"
+    height="32px"
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -21,8 +21,8 @@ export const Sun = (
 
 export const Moon = (
   <svg
-    width="30px"
-    height="30px"
+    width="32px"
+    height="32px"
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
