@@ -1,5 +1,5 @@
 import axios from 'axios'
-import qs from 'qs'
+// import qs from 'qs'
 const api = axios.create({
   withCredentials: true,
   baseURL: import.meta.env.VITE_API_URL,
