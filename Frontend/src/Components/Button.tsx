@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
-import useThemeStore from '../Theme/UseThemeStore'
+import useThemeStore from '../Stores/Theme/UseThemeStore'
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode

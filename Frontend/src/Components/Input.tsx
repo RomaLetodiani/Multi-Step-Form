@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from 'react'
 import { twMerge } from 'tailwind-merge'
-import useThemeStore from '../Theme/UseThemeStore'
+import useThemeStore from '../Stores/Theme/UseThemeStore'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   // Additional props specific to Input component can be defined here

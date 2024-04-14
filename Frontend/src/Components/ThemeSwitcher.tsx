@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import { Moon, Sun } from '../Assets/Icons/ThemeSwitcherIcons'
-import useThemeStore from '../Theme/UseThemeStore'
+import useThemeStore from '../Stores/Theme/UseThemeStore'
 import { twMerge } from 'tailwind-merge'
 import { useEffect } from 'react'
 import useMediaQuery from '../Hooks/UseMediaQuery'
