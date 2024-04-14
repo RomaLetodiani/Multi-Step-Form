@@ -5,6 +5,7 @@ import PrivateRoute from './PrivateRoute'
 import Profile from '../Pages/Profile/Profile'
 import Login from '../Pages/Auth/Login'
 import Register from '../Pages/Auth/Register'
+import Subscription from '../Pages/Subscription/Subscription'
 
 const Router = createBrowserRouter([
   {
@@ -13,20 +14,28 @@ const Router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '/login',
+        path: 'login',
         element: <Login />,
       },
       {
-        path: '/register',
+        path: 'register',
         element: <Register />,
       },
-
       {
         element: <PrivateRoute />,
         children: [
           {
-            path: '/profile',
-            element: <Profile />,
+            path: 'profile',
+            children: [
+              {
+                path: '',
+                element: <Profile />,
+              },
+              {
+                path: 'subscription',
+                element: <Subscription />,
+              },
+            ],
           },
         ],
       },
