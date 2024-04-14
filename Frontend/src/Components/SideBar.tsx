@@ -1,8 +1,9 @@
 import { Link, useLocation } from 'react-router-dom'
-import useThemeStore from '../Theme/UseThemeStore'
+import useThemeStore from '../Stores/Theme/UseThemeStore'
 import { twMerge } from 'tailwind-merge'
 import useMediaQuery from '../Hooks/UseMediaQuery'
 import Button from './Button'
+import useAuthStore from '../Stores/Auth/UseAuthStore'
 
 // Tailwind has to have the classes imported for dynamic use
 // @ts-ignore for the warning: "'tailwindClasses' is declared but its value is never read.ts(6133)"
@@ -11,39 +12,56 @@ const SideBar = () => {
   const { pathname } = useLocation()
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const { theme } = useThemeStore()
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   return (
     <div
       className={twMerge(
         'relative z-20 smooth md:rounded-xl overflow-hidden w-[274px]',
         !isDesktop && 'w-full h-[225px]',
-        pathname === '/' && 'w-full h-full',
+        pathname === '/' ? 'w-full h-full' : 'drop-shadow-xl',
         `bg-${theme}-primary`,
       )}
     >
-      <h1
-        className={twMerge(
-          'text-4xl font-bold z-30 pointer-events-none uppercase flex flex-col text-center text-white leading-snug absolute smooth left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
-          pathname === '/' && 'text-5xl leading-normal top-[45%]',
-          !isDesktop && 'top-[55%]',
-        )}
-      >
-        <span className="font-seymour drop-shadow-2xl animate-bounce">Multi</span>
-        <span className="font-seymour drop-shadow-2xl animate-bounce">Step</span>
-        <span className="font-seymour drop-shadow-2xl animate-bounce">Form</span>
-      </h1>
+      <Link to="/">
+        <h1
+          className={twMerge(
+            'text-4xl select-none font-bold z-30 cursor-pointer uppercase flex flex-col text-center text-white leading-snug absolute smooth left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
+            pathname === '/' && 'text-5xl leading-normal top-[45%]',
+            !isDesktop && 'top-[55%]',
+          )}
+        >
+          <span className="font-seymour drop-shadow-2xl animate-bounce">Multi</span>
+          <span className="font-seymour drop-shadow-2xl animate-bounce">Step</span>
+          <span className="font-seymour drop-shadow-2xl animate-bounce">Form</span>
+        </h1>
+      </Link>
       <div
         className={twMerge(
           'smooth absolute z-30 left-1/2 top-[68%] -translate-x-1/2 -translate-y-1/2',
           !isDesktop && 'top-3/4',
         )}
       >
-        <div className={`flex gap-4 ${pathname === '/' ? 'opacity-1' : 'opacity-0'}`}>
-          <Link to="/login">
-            <Button className="drop-shadow-xl font-bold w-32">Login</Button>
-          </Link>
-          <Link to="/register">
-            <Button className="drop-shadow-xl font-bold w-32">Register</Button>
-          </Link>
+        <div
+          className={`flex smooth gap-4 ${
+            pathname === '/'
+              ? 'opacity-1 m-0'
+              : 'opacity-0 ml-[1500px] mt-52 -mb-64 pointer-events-none select-none'
+          }`}
+        >
+          {isAuthenticated ? (
+            <Link to="profile">
+              <Button className="drop-shadow-xl font-bold w-32">Profile</Button>
+            </Link>
+          ) : (
+            <>
+              <Link to="login">
+                <Button className="drop-shadow-xl font-bold w-32">Login</Button>
+              </Link>
+              <Link to="register">
+                <Button className="drop-shadow-xl font-bold w-32">Register</Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
       <SideBarSvg />
@@ -61,7 +79,7 @@ const SideBarSvg = () => {
 
   return (
     <div
-      className={`absolute -left-24 ${
+      className={`absolute cursor-pointer smooth -left-24 ${
         !isDesktop ? 'scale-x-[-1] rotate-[140deg] -left-40 -top-32' : '-bottom-28'
       } overflow-hidden`}
     >
