@@ -1,17 +1,19 @@
-import { twMerge } from 'tailwind-merge'
-import useMediaQuery from '../../Hooks/UseMediaQuery'
 import Input from '../../Components/Input'
 import { useInput } from '../../Hooks/UseInput'
-import { FormEvent } from 'react'
+import { FormEvent, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from '../../Components/Button'
-import useThemeStore from '../../Theme/UseThemeStore'
+import useThemeStore from '../../Stores/Theme/UseThemeStore'
+import useAuthStore from '../../Stores/Auth/UseAuthStore'
+
+// Tailwind has to have the classes imported for dynamic use
+// @ts-ignore for the warning: "'tailwindClasses' is declared but its value is never read.ts(6133)"
+const tailwindClasses = ['text-light-text', 'text-dark-text', 'text-light-btn', 'text-dark-btn']
 
 const Register = () => {
-  const isDesktop = useMediaQuery('(min-width: 768px)')
   const usernameInput = useInput((value) => !!value)
   const emailInput = useInput((email) => {
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$/
+    const emailRegex = /^[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
     return emailRegex.test(email)
   })
   const passwordInput = useInput((password) => password.length > 8 && password.length < 20)
@@ -19,6 +21,11 @@ const Register = () => {
   const botInput = useInput((value) => !value)
   const navigate = useNavigate()
   const { theme } = useThemeStore()
+  const { register, isAuthenticated } = useAuthStore()
+
+  useEffect(() => {
+    isAuthenticated && navigate('/profile')
+  }, [isAuthenticated])
 
   // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -27,26 +34,21 @@ const Register = () => {
       navigate('/botDetected')
       return
     }
-    console.log('Login data:', { username: usernameInput.value })
-    // Simulate login success
+
+    register(usernameInput.value, emailInput.value, passwordInput.value)
   }
 
   return (
-    <div
-      className={twMerge(
-        'absolute left-[320px] top-5 bottom-5 right-5',
-        !isDesktop && 'left-5 top-[250px]',
-      )}
-    >
+    !isAuthenticated && (
       <div className={`max-w-md m-auto text-${theme}-text`}>
         <h1 className="text-[clamp(32px,4vw,40px)] leading-snug">Create New Account</h1>
         <p className="opacity-80 text-sm leading-8">
           Already have an account?{' '}
-          <Link to="/login" className="text-blue-500">
+          <Link to="/login" className={`text-${theme}-btn font-bold`}>
             Sign in here
           </Link>
         </p>
-        <form className="flex flex-col gap-3 my-8" onSubmit={handleSubmit} action="submit">
+        <form className="flex flex-col gap-3 my-8 pb-10" onSubmit={handleSubmit} action="submit">
           <Input label="Username" errorMessage={'This Field is Required'} {...usernameInput} />
           <Input label="Email" errorMessage={'This Field is Required'} {...emailInput} />
           <Input label="Password" errorMessage={'This Field is Required'} {...passwordInput} />
@@ -62,7 +64,7 @@ const Register = () => {
           <Button className="font-bold text-lg mt-5 w-full">Register</Button>
         </form>
       </div>
-    </div>
+    )
   )
 }
 
