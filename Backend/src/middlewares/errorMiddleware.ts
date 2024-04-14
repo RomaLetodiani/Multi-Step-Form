@@ -12,13 +12,13 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
     res.status(400).json({ message: err.message, field: err.field })
     errorMessage = 'Validation Error: ' + err.message
   } else if (err instanceof UserRegistrationError) {
-    res.status(401).json({ message: err.message })
+    res.status(400).json({ message: err.message })
     errorMessage = 'User registration Error: ' + err.message
   } else if (err instanceof UserLoginError) {
-    res.status(401).json({ message: err.message })
+    res.status(404).json({ message: err.message })
     errorMessage = 'User Login Error: ' + err.message
   } else if (err instanceof UserUpdateError) {
-    res.status(401).json({ message: err.message })
+    res.status(400).json({ message: err.message })
     errorMessage = 'User Update Error: ' + err.message
   } else if (err instanceof EmailVerificationError) {
     res.status(400).json({ message: err.message })

@@ -28,7 +28,13 @@ dotenv.config()
 app.use(helmet.contentSecurityPolicy()) // Content Security Policy for script and resource restrictions
 app.use(helmet.referrerPolicy()) // Prevent referrer leakage
 
-app.use(cors())
+app.use(
+  cors({
+    credentials: true,
+    // origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: 'http://localhost:5173',
+  }),
+)
 
 app.use(cookieParser())
 

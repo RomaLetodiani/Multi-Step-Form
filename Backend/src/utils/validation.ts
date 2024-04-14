@@ -1,7 +1,7 @@
 import { ValidationError } from '../middlewares/errorMiddleware'
 
 const validateEmail = async (email: string) => {
-  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  const emailRegex = /^[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
   if (!emailRegex.test(email)) {
     throw new ValidationError('email', 'Please enter a valid email address')
   }
