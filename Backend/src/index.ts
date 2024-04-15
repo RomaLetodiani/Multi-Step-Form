@@ -31,8 +31,8 @@ app.use(helmet.referrerPolicy()) // Prevent referrer leakage
 app.use(
   cors({
     credentials: true,
-    // origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    origin: 'http://localhost:5173',
+    origin:
+      process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL : 'http://localhost:5173',
   }),
 )
 
