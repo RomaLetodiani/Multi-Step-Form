@@ -11,7 +11,7 @@ class AuthServices {
     // Validations
     await validateUsername(username)
 
-    const userExists = await User.findOne({ username })
+    const userExists = await User.findOne({ username: { $eq: username } })
     if (userExists) {
       throw new UserRegistrationError('User already exists')
     }
