@@ -16,9 +16,6 @@ const Root = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const isOnline = useNetworkStatus()
   const { authenticationError } = useAuthStore()
-  console.log('🚀 ~ Root ~ authenticationError:', authenticationError)
-  console.log('🚀 ~ Root ~ isOnline:', isOnline)
-
   return (
     <div
       className={`bg-${theme} min-w-[375px] md:p-5 min-h-screen flex justify-center items-center`}

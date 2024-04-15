@@ -27,13 +27,11 @@ class UserServices {
       throw new UserUpdateError('User already exists')
     }
 
-    await User.findByIdAndUpdate(
-      res.user?._id,
-      {
-        username,
-        email,
-        password: await hashPassword(password),
-      },
+    const hashedPassword = await hashPassword(password)
+
+    await User.findOneAndUpdate(
+      { _id: res.user?._id },
+      { $set: { username, email, password: hashedPassword } },
       { new: true },
     )
   }

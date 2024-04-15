@@ -4,8 +4,8 @@ const api = axios.create({
   withCredentials: true,
   baseURL:
     import.meta.env.VITE_ENV === 'production'
-      ? import.meta.env.VITE_URL
-      : import.meta.env.VITE_URL_DEV,
+      ? import.meta.env.VITE_API_URL
+      : import.meta.env.VITE_API_URL_DEV,
 })
 
 api.interceptors.request.use((config: any) => {
