@@ -39,7 +39,7 @@ class AuthServices {
     // Validations
     await validateUsername(username)
 
-    const user = await User.findOne({ username })
+    const user = await User.findOne({ username: { $eq: username } })
     if (!user) {
       throw new UserLoginError('User not found')
     }

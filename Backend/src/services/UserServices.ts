@@ -20,9 +20,7 @@ class UserServices {
     await validateUsername(username)
     await validatePassword(password)
 
-    const userExists = await User.findOne({
-      username,
-    })
+    const userExists = await User.findOne({ username: { $eq: username } })
     if (userExists && user?.username !== username) {
       throw new UserUpdateError('User already exists')
     }
