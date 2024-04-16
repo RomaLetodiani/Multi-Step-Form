@@ -24,16 +24,14 @@
     "mongoose": "^8.2.0",
     "nodemailer": "^6.9.12",
     "nodemon": "^3.1.0",
-    "randombytes": "^2.1.0"
-  },
-  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "randombytes": "^2.1.0",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/randombytes": "^2.0.3",
     "cors": "^2.8.5",
-    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
 }
