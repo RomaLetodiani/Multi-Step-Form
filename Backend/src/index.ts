@@ -36,7 +36,7 @@ app.use(
   }),
 )
 
-app.set('trust proxy', 1)
+app.set('trust proxy', 2)
 app.get('/ip', (request, response) => response.send(request.ip))
 
 app.use(cookieParser())
@@ -56,7 +56,9 @@ app.use(errorHandler)
 const PORT = process.env.PORT || 5000
 
 app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`)
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`Server is running at http://localhost:${PORT}`)
+  }
 })
 
 ConnectMongoDB()
