@@ -36,7 +36,7 @@ app.use(
   }),
 )
 
-app.set('trust proxy', 2)
+app.set('trust proxy', 3)
 app.get('/ip', (request, response) => response.send(request.ip))
 
 app.use(cookieParser())
