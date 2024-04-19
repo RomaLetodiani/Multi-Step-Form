@@ -36,8 +36,8 @@ app.use(
   }),
 )
 
-// Trust the proxy headers
-app.set('trust proxy', true)
+app.set('trust proxy', 1)
+app.get('/ip', (request, response) => response.send(request.ip))
 
 app.use(cookieParser())
 
