@@ -36,6 +36,9 @@ app.use(
   }),
 )
 
+// Trust the proxy headers
+app.set('trust proxy', true)
+
 app.use(cookieParser())
 
 app.use(bodyParser.json())
