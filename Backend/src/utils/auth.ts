@@ -3,22 +3,33 @@ import { Response } from 'express'
 import bcrypt from 'bcrypt'
 import randomBytes from 'randombytes'
 
+import { v4 as uuidv4 } from 'uuid' // Import the uuid library
+
+const tokenStorage: { [key: string]: string } = {} // Create an object to store tokenId-token mappings
+
+const getToken = (tokenId: string) => {
+  return tokenStorage[tokenId]
+}
+
 const generateToken = (res: Response, userId: string) => {
   const jwtSecret = process.env.JWT_SECRET_KEY || ''
-  const token = jwt.sign({ userId }, jwtSecret, {
-    expiresIn: '1h',
-  })
+  const token = jwt.sign({ userId }, jwtSecret, { expiresIn: '1h' })
+  const tokenId = uuidv4() // Generate a unique tokenId
 
-  res.cookie('jwt', token, {
-    httpOnly: false,
+  // Store the token associated with the tokenId
+  tokenStorage[tokenId] = token
+
+  // Set the HTTP-only cookie with the tokenId
+  res.cookie('token_id', tokenId, {
+    httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'lax' : 'strict',
-    maxAge: 60 * 60 * 1000,
+    sameSite: 'strict',
+    maxAge: 60 * 60 * 1000, // 1 hour
   })
 }
 
 const clearToken = (res: Response) => {
-  res.cookie('jwt', '', {
+  res.cookie('token_id', '', {
     httpOnly: true,
     expires: new Date(0),
   })
@@ -46,4 +57,4 @@ function generateVerificationCode(length: number = 6) {
   return code
 }
 
-export { generateToken, clearToken, hashPassword, generateVerificationCode }
+export { getToken, generateToken, clearToken, hashPassword, generateVerificationCode }
