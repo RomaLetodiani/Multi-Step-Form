@@ -32,7 +32,7 @@ const useAuthStore = create<AuthStore>((set) => ({
         }
       })
       .catch((error) => {
-        console.error('Error checking authentication: ', error)
+        console.error('Error checking authentication: ', error.message)
         set({
           isAuthenticated: false,
         })

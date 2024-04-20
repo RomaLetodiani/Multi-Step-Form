@@ -22,6 +22,14 @@ const Router = createBrowserRouter([
         element: <Register />,
       },
       {
+        path: 'botDetected',
+        element: <ErrorPage />,
+      },
+      {
+        path: 'error/:errorCode',
+        element: <ErrorPage />,
+      },
+      {
         element: <PrivateRoute />,
         children: [
           {
