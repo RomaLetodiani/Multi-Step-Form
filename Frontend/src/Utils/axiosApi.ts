@@ -16,9 +16,16 @@ api.interceptors.request.use((config: any) => {
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response && error.response.status === 401) {
-      // Redirect to the homepage if the response status is 401 (Unauthorized)
-      window.location.pathname = '/'
+    if (error.response) {
+      if (error.response.status === 401) {
+        // Redirect to the homepage if the response status is 401 (Unauthorized)
+        window.location.pathname = '/'
+      }
+
+      if (error.response.status === 429) {
+        // Redirect to the ErrorPage if the response status is 429 (Forbidden)
+        window.location.pathname = '/error/:429'
+      }
     }
     // Return the rejected promise to maintain the error chain
     return Promise.reject(error)
