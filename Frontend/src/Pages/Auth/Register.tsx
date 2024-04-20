@@ -24,7 +24,7 @@ const Register = () => {
   const { register, isAuthenticated } = useAuthStore()
 
   useEffect(() => {
-    isAuthenticated && navigate('/profile')
+    isAuthenticated && navigate('/')
   }, [isAuthenticated])
 
   // Handle form submission

@@ -19,18 +19,24 @@ const useAuthStore = create<AuthStore>((set) => ({
   isAuthenticated: false,
   authenticationError: false,
   check: async () =>
-    await AuthServices.check().then((response) => {
-      console.log('🚀 ~ awaitAuthServices.check ~ response:', response)
-      if (response.status === 200) {
-        set({
-          isAuthenticated: true,
-        })
-      } else {
+    await AuthServices.check()
+      .then((response) => {
+        if (response.status === 200) {
+          set({
+            isAuthenticated: true,
+          })
+        } else {
+          set({
+            isAuthenticated: false,
+          })
+        }
+      })
+      .catch((error) => {
+        console.error('Error checking authentication: ', error)
         set({
           isAuthenticated: false,
         })
-      }
-    }),
+      }),
   login: async (username: string, password: string) => {
     await AuthServices.login({ username, password })
       .then(async (response) => {
@@ -41,7 +47,7 @@ const useAuthStore = create<AuthStore>((set) => ({
         }
       })
       .catch((error) => {
-        console.error('Error during login: ', error)
+        console.error('Error during login: ', error.message)
         set({
           isAuthenticated: false,
           authenticationError: true,

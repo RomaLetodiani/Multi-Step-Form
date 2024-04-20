@@ -12,6 +12,7 @@ import { errorHandler } from './middlewares/errorMiddleware'
 import { authRateLimiter } from './middlewares/authRateLimiter'
 import { authenticateUser } from './middlewares/authMiddleware'
 import { UserDocument } from './models/User'
+import AuthController from './controllers/AuthController'
 
 declare global {
   namespace Express {
@@ -45,6 +46,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // subscribeRoutes
 app.use('/api/subscription', authenticateUser, subscribeRoutes)
+
+// authCheck
+app.use('/api/auth/check', AuthController.checkUser)
 // authRoutes
 app.use('/api/auth', authRateLimiter, authRoutes)
 // userRoutes

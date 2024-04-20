@@ -19,7 +19,7 @@ const Login = () => {
   const { login, isAuthenticated } = useAuthStore()
 
   useEffect(() => {
-    isAuthenticated && navigate('/profile')
+    isAuthenticated && navigate('/')
   }, [isAuthenticated])
 
   // Handle form submission
