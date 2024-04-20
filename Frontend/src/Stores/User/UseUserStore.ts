@@ -1,8 +1,9 @@
 import { create } from 'zustand'
 import { UserServices } from '../../Services/User'
+import { userI } from './Interfaces'
 
 interface AuthStore {
-  user: any
+  user: userI | null
   getDetails: () => void
 }
 
