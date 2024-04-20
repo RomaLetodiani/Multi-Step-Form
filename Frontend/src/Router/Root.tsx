@@ -4,7 +4,7 @@ import useThemeStore from '../Stores/Theme/UseThemeStore'
 import ThemeSwitcher from '../Components/ThemeSwitcher'
 import { twMerge } from 'tailwind-merge'
 import useMediaQuery from '../Hooks/UseMediaQuery'
-import useNetworkStatus from '../Hooks/UseNetworkStatus'
+// import useNetworkStatus from '../Hooks/UseNetworkStatus'
 import useAuthStore from '../Stores/Auth/UseAuthStore'
 import { useEffect } from 'react'
 //
@@ -15,8 +15,8 @@ const tailwindClasses = ['bg-light', 'bg-dark', 'bg-light-container', 'bg-dark-c
 const Root = () => {
   const { theme } = useThemeStore()
   const isDesktop = useMediaQuery('(min-width: 768px)')
-  const isOnline = useNetworkStatus()
-  const { authenticationError, check } = useAuthStore()
+  // const isOnline = useNetworkStatus()
+  const { check } = useAuthStore()
 
   useEffect(() => {
     check()
