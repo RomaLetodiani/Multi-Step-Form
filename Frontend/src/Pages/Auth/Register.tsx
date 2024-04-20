@@ -5,18 +5,19 @@ import { Link, useNavigate } from 'react-router-dom'
 import Button from '../../Components/Button'
 import useThemeStore from '../../Stores/Theme/UseThemeStore'
 import useAuthStore from '../../Stores/Auth/UseAuthStore'
+import { validatePassword, validateUsername } from '../../Utils/validations'
 
 // Tailwind has to have the classes imported for dynamic use
 // @ts-ignore for the warning: "'tailwindClasses' is declared but its value is never read.ts(6133)"
 const tailwindClasses = ['text-light-text', 'text-dark-text', 'text-light-btn', 'text-dark-btn']
 
 const Register = () => {
-  const usernameInput = useInput((value) => !!value)
+  const usernameInput = useInput((value) => !validateUsername(value))
   const emailInput = useInput((email) => {
     const emailRegex = /^[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
     return emailRegex.test(email)
   })
-  const passwordInput = useInput((password) => password.length > 8 && password.length < 20)
+  const passwordInput = useInput((password) => !validatePassword(password))
   const rPasswordInput = useInput((password) => password === passwordInput.value)
   const botInput = useInput((value) => !value)
   const navigate = useNavigate()
@@ -48,13 +49,23 @@ const Register = () => {
           </Link>
         </p>
         <form className="flex flex-col gap-3 my-8 pb-10" onSubmit={handleSubmit} action="submit">
-          <Input label="Username" errorMessage={'This Field is Required'} {...usernameInput} />
-          <Input label="Email" errorMessage={'This Field is Required'} {...emailInput} />
-          <Input label="Password" errorMessage={'This Field is Required'} {...passwordInput} />
           <Input
-            disabled={!passwordInput.value || passwordInput.hasError}
+            label="Username"
+            errorMessage={validateUsername(usernameInput.value)}
+            {...usernameInput}
+          />
+          <Input label="Email" errorMessage={'Email Example: example@gmail.com'} {...emailInput} />
+          <Input
+            label="Password"
+            type="password"
+            errorMessage={validatePassword(passwordInput.value)}
+            {...passwordInput}
+          />
+          <Input
+            disabled={!passwordInput.value}
             label="Repeat Password"
-            errorMessage={'This Field is Required'}
+            type="password"
+            errorMessage={'Passwords Do Not Match'}
             {...rPasswordInput}
           />
           <div className="absolute opacity-0 pointer-events-none">

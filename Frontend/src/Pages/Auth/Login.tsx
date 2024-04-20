@@ -11,12 +11,12 @@ import useAuthStore from '../../Stores/Auth/UseAuthStore'
 const tailwindClasses = ['text-light-text', 'text-dark-text', 'text-light-btn', 'text-dark-btn']
 
 const Login = () => {
-  const usernameInput = useInput((value) => !!value)
-  const passwordInput = useInput((value) => !!value)
+  const { login, isAuthenticated, authenticationError } = useAuthStore()
+  const usernameInput = useInput((value) => !authenticationError && !!value)
+  const passwordInput = useInput((value) => !authenticationError && !!value)
   const botInput = useInput((value) => !value)
   const navigate = useNavigate()
   const { theme } = useThemeStore()
-  const { login, isAuthenticated } = useAuthStore()
 
   useEffect(() => {
     isAuthenticated && navigate('/')
@@ -29,6 +29,7 @@ const Login = () => {
       navigate('/botDetected')
       return
     }
+    if (!passwordInput.value || !usernameInput.value) return
     await login(usernameInput.value, passwordInput.value)
   }
 
@@ -43,8 +44,19 @@ const Login = () => {
           </Link>
         </p>
         <form className="flex flex-col gap-5 my-8" onSubmit={handleSubmit} action="submit">
-          <Input label="Username" errorMessage={'This Field is Required'} {...usernameInput} />
-          <Input label="Password" errorMessage={'This Field is Required'} {...passwordInput} />
+          <Input
+            label="Username"
+            errorMessage={
+              authenticationError ? 'Invalid Username or Password' : 'Username is Required'
+            }
+            {...usernameInput}
+          />
+          <Input
+            label="Password"
+            type="password"
+            errorMessage={authenticationError ? '' : 'Password is Required'}
+            {...passwordInput}
+          />
           <div className="absolute opacity-0 pointer-events-none">
             <Input label="Trap" errorMessage={'Trapped you'} {...botInput} />
           </div>
