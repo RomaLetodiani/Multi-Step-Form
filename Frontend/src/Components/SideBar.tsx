@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge'
 import useMediaQuery from '../Hooks/UseMediaQuery'
 import Button from './Button'
 import useAuthStore from '../Stores/Auth/UseAuthStore'
+import Span from './Span'
 
 // Tailwind has to have the classes imported for dynamic use
 // @ts-ignore for the warning: "'tailwindClasses' is declared but its value is never read.ts(6133)"
@@ -30,9 +31,9 @@ const SideBar = () => {
             !isDesktop && 'top-[55%]',
           )}
         >
-          <span className="font-seymour drop-shadow-2xl animate-bounce">Multi</span>
-          <span className="font-seymour drop-shadow-2xl animate-bounce">Step</span>
-          <span className="font-seymour drop-shadow-2xl animate-bounce">Form</span>
+          <Span>Multi</Span>
+          <Span>Step</Span>
+          <Span>Form</Span>
         </h1>
       </Link>
       <div
@@ -79,7 +80,7 @@ const SideBarSvg = () => {
 
   return (
     <div
-      className={`absolute cursor-pointer smooth -left-24 ${
+      className={`absolute smooth -left-24 ${
         !isDesktop ? 'scale-x-[-1] rotate-[140deg] -left-40 -top-32' : '-bottom-28'
       } overflow-hidden`}
     >
