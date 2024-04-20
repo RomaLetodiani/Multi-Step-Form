@@ -6,6 +6,7 @@ import { twMerge } from 'tailwind-merge'
 import useMediaQuery from '../Hooks/UseMediaQuery'
 import useNetworkStatus from '../Hooks/UseNetworkStatus'
 import useAuthStore from '../Stores/Auth/UseAuthStore'
+import { useEffect } from 'react'
 //
 // Tailwind has to have the classes imported for dynamic use
 // @ts-ignore for the warning: "'tailwindClasses' is declared but its value is never read.ts(6133)"
@@ -15,9 +16,11 @@ const Root = () => {
   const { theme } = useThemeStore()
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const isOnline = useNetworkStatus()
-  console.log('🚀 ~ Root ~ isOnline:', isOnline)
-  const { authenticationError } = useAuthStore()
-  console.log('🚀 ~ Root ~ authenticationError:', authenticationError)
+  const { authenticationError, check } = useAuthStore()
+
+  useEffect(() => {
+    check()
+  }, [])
   return (
     <div
       className={`bg-${theme} min-w-[375px] md:p-5 min-h-screen flex justify-center items-center`}

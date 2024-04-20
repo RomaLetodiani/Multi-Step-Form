@@ -9,6 +9,9 @@ router.post('/register', AuthController.registerUser)
 // Login a user (No Authentication required)
 router.post('/login', AuthController.loginUser)
 
+// Check if a user is logged in (No Authentication required)
+router.get('/check', AuthController.checkUser)
+
 // Logout a user (Authentication required)
 router.post('/logout', authenticateUser, AuthController.logoutUser)
 

@@ -2,9 +2,42 @@ import { Request, Response } from 'express'
 import { User } from '../models/User'
 import { UserRegistrationError, UserLoginError } from '../middlewares/errorMiddleware'
 import { validateEmail, validateUsername, validatePassword } from '../utils/validation'
-import { clearToken, generateToken } from '../utils/auth'
+import { clearToken, generateToken, getToken } from '../utils/auth'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 
 class AuthServices {
+  async checkUser(req: Request, res: Response) {
+    const tokenId = req.cookies.token_id
+
+    if (!tokenId) {
+      return false
+    }
+
+    const token = getToken(tokenId) // Function to retrieve the JWT token from secure storage
+
+    if (!token) {
+      return false
+    }
+
+    try {
+      const jwtSecret = process.env.JWT_SECRET_KEY || ''
+      const decoded = jwt.verify(token, jwtSecret) as JwtPayload
+      const userId = decoded.userId
+
+      // Retrieve user data from the database or other storage
+      const user = await User.findById(userId)
+
+      if (!user) {
+        return false
+      }
+
+      return true
+    } catch (err) {
+      console.error(err)
+      return false
+    }
+  }
+
   async register(req: Request, res: Response) {
     const { username, email, password } = req.body
 

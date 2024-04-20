@@ -9,6 +9,13 @@ class AuthController {
     this.authServices = new AuthServices()
   }
 
+  checkUser = asyncHandler(async (req: Request, res: Response) => {
+    const isAuthenticated = await this.authServices.checkUser(req, res)
+    res
+      .status(isAuthenticated ? 200 : 404)
+      .json({ message: isAuthenticated ? 'User is logged in' : 'Token Required' })
+  })
+
   registerUser = asyncHandler(async (req: Request, res: Response) => {
     await this.authServices.register(req, res)
     res.status(200).json({

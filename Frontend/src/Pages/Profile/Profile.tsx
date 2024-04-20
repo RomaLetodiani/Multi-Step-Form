@@ -1,12 +1,9 @@
 import { useEffect } from 'react'
 import useAuthStore from '../../Stores/Auth/UseAuthStore'
-import useUserStore from '../../Stores/User/UseUserStore'
 
 const Profile = () => {
   const { isAuthenticated, logout } = useAuthStore()
-  const { getDetails, user } = useUserStore()
-  console.log('🚀 ~ Profile ~ user:', user)
-
+  const { getDetails, user } = useAuthStore()
   useEffect(() => {
     isAuthenticated && getDetails()
   }, [isAuthenticated])
