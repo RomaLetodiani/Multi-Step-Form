@@ -28,14 +28,13 @@ const Register = () => {
   }, [isAuthenticated])
 
   // Handle form submission
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (botInput.value) {
       navigate('/botDetected')
       return
     }
-
-    register(usernameInput.value, emailInput.value, passwordInput.value)
+    await register(usernameInput.value, emailInput.value, passwordInput.value)
   }
 
   return (
