@@ -13,7 +13,7 @@ interface AuthStore {
 
 const useAuthStore = create<AuthStore>((set) => {
   let isAuthenticated = false
-  const token = Cookies.get('jwt')
+  const token = Cookies.get('token_id')
   if (token) {
     const { exp } = jwtDecode(token)
     if (exp) {
