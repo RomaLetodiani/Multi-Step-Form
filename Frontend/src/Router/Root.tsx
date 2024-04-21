@@ -10,7 +10,14 @@ import { useEffect } from 'react'
 //
 // Tailwind has to have the classes imported for dynamic use
 // @ts-ignore for the warning: "'tailwindClasses' is declared but its value is never read.ts(6133)"
-const tailwindClasses = ['bg-light', 'bg-dark', 'bg-light-container', 'bg-dark-container']
+const tailwindClasses = [
+  'text-light-text',
+  'text-dark-text',
+  'bg-light',
+  'bg-dark',
+  'bg-light-container',
+  'bg-dark-container',
+]
 
 const Root = () => {
   const { theme } = useThemeStore()
@@ -33,7 +40,8 @@ const Root = () => {
         <div
           className={twMerge(
             'absolute left-[320px] top-5 bottom-5 right-5',
-            !isDesktop && 'left-5 top-[250px]',
+            !isDesktop && 'left-5 top-[250px] ',
+            `text-${theme}-text`,
           )}
         >
           <Outlet />

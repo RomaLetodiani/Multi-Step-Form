@@ -6,6 +6,7 @@ import Profile from '../Pages/Profile/Profile'
 import Login from '../Pages/Auth/Login'
 import Register from '../Pages/Auth/Register'
 import Subscription from '../Pages/Subscription/Subscription'
+import EmailVerification from '../Pages/Profile/Email/EmailVerification'
 
 const Router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const Router = createBrowserRouter([
               {
                 path: 'subscription',
                 element: <Subscription />,
+              },
+              {
+                path: 'emailVerification',
+                element: <EmailVerification />,
               },
             ],
           },
