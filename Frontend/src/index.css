@@ -6,6 +6,7 @@
 
 @layer components {
   div,
+  button,
   body {
     @apply transition-colors ease-linear duration-200;
   }

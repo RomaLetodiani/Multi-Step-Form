@@ -3,7 +3,11 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backgroundImage: {
+        loaderGradient: 'linear-gradient(rgb(186, 66, 255), rgb(0, 225, 255))',
+      },
       colors: {
+        danger: '#FF5C6E',
         light: {
           DEFAULT: '#f0f6ff', // Light background
           container: '#f9f9f9', // Light container
@@ -29,6 +33,8 @@ export default {
       },
       boxShadow: {
         sm: '0 0 20px -5px rgba(0, 0, 0, 0.25)',
+        loader:
+          '0px -5px 20px 0px rgba(186, 66, 255, 0.5), 0px 5px 20px 0px rgba(0, 225, 255, 0.5)',
       },
 
       fontFamily: {
