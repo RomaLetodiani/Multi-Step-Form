@@ -29,7 +29,14 @@ class UserServices {
 
     await User.findOneAndUpdate(
       { _id: res.user?._id },
-      { $set: { username, email, password: hashedPassword } },
+      {
+        $set: {
+          username,
+          email,
+          password: hashedPassword,
+          verified: user?.email === email ? user?.verified : false,
+        },
+      },
       { new: true },
     )
   }
@@ -45,6 +52,8 @@ class UserServices {
     if (user?.verified) {
       throw new EmailVerificationError('Email already verified')
     }
+
+    console.log(user?.username, 'Requested email verification')
 
     // Check if 30 seconds have passed since the last request
     const now = new Date()
