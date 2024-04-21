@@ -26,7 +26,7 @@ const Input = ({ label, hasError, errorMessage, focus, inputClass, type, ...rest
             {label}
           </label>
         )}
-        {hasError && <p className="text-red-500 font-bold text-xs mt-2 mr-2">{errorMessage}</p>}
+        {hasError && <p className="text-danger font-bold text-xs mt-2 mr-2">{errorMessage}</p>}
       </div>
       {
         <span className="relative">
@@ -37,7 +37,7 @@ const Input = ({ label, hasError, errorMessage, focus, inputClass, type, ...rest
               `bg-${theme} text-${theme}-text`,
               'smooth w-full px-3 py-2 rounded-lg border border-gray-300 outline-none',
               inputClass,
-              hasError && 'border-red-500 text-red-500',
+              hasError && 'border-danger text-danger',
               type === 'password' && 'pr-10',
             )}
             type={isPasswordVisible ? 'text' : type}
@@ -49,7 +49,7 @@ const Input = ({ label, hasError, errorMessage, focus, inputClass, type, ...rest
               className={twMerge(
                 'absolute right-0 -top-[1px] -translate-y-1/4 h-10 w-10 flex justify-center cursor-pointer items-center',
                 `text-${theme}-btn`,
-                hasError && 'text-red-500',
+                hasError && 'text-danger',
               )}
             >
               {isPasswordVisible ? Eye : eyeSlash}

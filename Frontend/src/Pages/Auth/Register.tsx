@@ -9,7 +9,7 @@ import { validatePassword, validateUsername } from '../../Utils/validations'
 
 // Tailwind has to have the classes imported for dynamic use
 // @ts-ignore for the warning: "'tailwindClasses' is declared but its value is never read.ts(6133)"
-const tailwindClasses = ['text-light-text', 'text-dark-text', 'text-light-btn', 'text-dark-btn']
+const tailwindClasses = ['text-light-btn', 'text-dark-btn']
 
 const Register = () => {
   const usernameInput = useInput((value) => !validateUsername(value))
@@ -40,7 +40,7 @@ const Register = () => {
 
   return (
     !isAuthenticated && (
-      <div className={`max-w-md m-auto text-${theme}-text`}>
+      <div className={`max-w-md m-auto`}>
         <h1 className="text-[clamp(32px,4vw,40px)] leading-snug">Create New Account</h1>
         <p className="opacity-80 text-sm leading-8">
           Already have an account?{' '}
