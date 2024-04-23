@@ -7,6 +7,8 @@ import Login from '../Pages/Auth/Login'
 import Register from '../Pages/Auth/Register'
 import Subscription from '../Pages/Subscription/Subscription'
 import EmailVerification from '../Pages/Profile/Email/EmailVerification'
+import SubscriptionForm from '../Pages/Subscription/Form/SubscriptionForm'
+import PrivateSubscriptionRoute from './PrivateSubscriptionRoute'
 
 const Router = createBrowserRouter([
   {
@@ -41,8 +43,19 @@ const Router = createBrowserRouter([
                 element: <Profile />,
               },
               {
-                path: 'subscription',
-                element: <Subscription />,
+                element: <PrivateSubscriptionRoute />,
+                children: [
+                  {
+                    path: 'subscription',
+                    element: <Subscription />,
+                    children: [
+                      {
+                        path: ':step',
+                        element: <SubscriptionForm />,
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 path: 'emailVerification',
