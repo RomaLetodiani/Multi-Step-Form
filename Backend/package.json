@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "Backend for Multi Step Form",
   "main": "index.ts",
+  "repository": "https://github.com/RomaLetodiani/Multi-Step-Form",
+  "author": "Roma Letodiani",
   "license": "MIT",
+  "private": false,
   "scripts": {
-    "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -39,5 +42,8 @@
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }
