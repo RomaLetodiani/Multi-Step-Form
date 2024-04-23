@@ -26,9 +26,7 @@
     "mongoose": "^8.2.0",
     "nodemailer": "^6.9.12",
     "randombytes": "^2.1.0",
-    "uuid": "^9.0.1"
-  },
-  "devDependencies": {
+    "uuid": "^9.0.1",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
@@ -38,7 +36,9 @@
     "@types/node": "^20.11.24",
     "@types/nodemailer": "^6.4.14",
     "@types/randombytes": "^2.0.3",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "^9.0.8"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
