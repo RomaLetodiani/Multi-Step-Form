@@ -12,6 +12,8 @@ export interface subscriptionI {
   active: boolean
   user: string
   expiresAt: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface userI {

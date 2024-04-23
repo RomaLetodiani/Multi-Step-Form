@@ -23,7 +23,7 @@ type InputState = {
  * @param validate A function to validate the input value.
  * @returns An object containing input state and event handlers.
  */
-export const useInput = (validate: (value: string) => boolean): InputState => {
+export const useInput = (validate: (value: string) => boolean = () => true): InputState => {
   const [value, setValue] = useState<string>('')
   const [touched, setTouched] = useState<boolean>(false)
   const [focus, setFocus] = useState<boolean>(false)
