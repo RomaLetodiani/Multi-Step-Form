@@ -5,7 +5,7 @@ const api = axios.create({
   baseURL:
     import.meta.env.VITE_ENV === 'production'
       ? import.meta.env.VITE_API_URL
-      : import.meta.env.VITE_API_URL_DEV,
+      : "http://localhost:5050/api",
 })
 
 api.interceptors.request.use((config: any) => {
