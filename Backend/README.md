@@ -85,7 +85,7 @@ Explanation of each directory and file:
 
 ## Authentication
 
-The authentication in this API collection is based on JSON Web Tokens (JWT). To utilize the endpoints requiring authentication, you need to obtain a JWT token by successfully logging in.
+The authentication in this API is based on JSON Web Tokens (JWT). To utilize the endpoints requiring authentication, you need to obtain a JWT token by successfully logging in.
 
 ### Endpoints
 
@@ -165,14 +165,6 @@ The subscription endpoints handle subscription-related functionalities such as s
     ```
 - **Unsubscribe**: `DELETE /subscription/unsubscribe`
   - Description: Unsubscribe from a service.
-
-## Environment Variables
-
-- `base_url`: `http://localhost:5050/api`
-
-## Authorization
-
-The collection includes JWT authorization. Upon successful login, a JWT token is generated and stored in the collection's environment variables. This token is then automatically included in subsequent requests requiring authentication.
 
 ---
 
