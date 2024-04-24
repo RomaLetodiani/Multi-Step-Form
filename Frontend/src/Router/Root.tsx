@@ -23,11 +23,17 @@ const Root = () => {
   const { theme } = useThemeStore()
   const isDesktop = useMediaQuery('(min-width: 768px)')
   // const isOnline = useNetworkStatus()
-  const { check } = useAuthStore()
+  const { check, isAuthenticated, getDetails } = useAuthStore()
 
   useEffect(() => {
     check()
   }, [])
+
+  useEffect(() => {
+    isAuthenticated && getDetails()
+    console.log('🚀 ~ useEffect ~ isAuthenticated:', isAuthenticated)
+  }, [isAuthenticated])
+
   return (
     <div
       className={`bg-${theme} min-w-[375px] md:p-5 min-h-screen flex justify-center items-center`}

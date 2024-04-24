@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import useAuthStore from '../../Stores/Auth/UseAuthStore'
 import Loader from '../../Components/Loader'
 import Button from '../../Components/Button'
@@ -10,14 +10,9 @@ import { Copy } from '../../Assets/Icons/Copy'
 
 const Profile = () => {
   const [copyToClipboard, isCopied] = useClipboard()
-  const { isAuthenticated, logout } = useAuthStore()
-  const { getDetails, loading, user } = useAuthStore()
+  const { loading, user, logout } = useAuthStore()
   const navigate = useNavigate()
   const [emailVerificationError, setEmailVerificationError] = useState(false)
-
-  useEffect(() => {
-    isAuthenticated && getDetails()
-  }, [isAuthenticated])
 
   const handleEmailVerification = async () => {
     await UserServices.sendEmailVerification()
