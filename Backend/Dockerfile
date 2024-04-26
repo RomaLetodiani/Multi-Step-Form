@@ -1,8 +1,6 @@
-# TODO: Make this work:
-
 FROM node:alpine AS builder
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json (if using)
 COPY package*.json ./
@@ -15,13 +13,13 @@ COPY .env ./
 
 COPY . .
 
-# Assuming your tsc script compiles TypeScript files
+# Build the app
 RUN npm run build
 
-FROM node:alpine
-
-# Assuming your compiled JS goes into dist folder
-COPY --from=builder /app/dist .  
+EXPOSE 5050
 
 # Replace with your main entry point if different
-CMD [ "node", "index.js" ] 
+CMD [ "npm", "start" ] 
+
+# docker pull romanletodiani/multi-backend:latest
+# docker run -d -p 5050:5050 --name multiBackend romanletodiani/multi-backend:latest
