@@ -1,0 +1,6 @@
+node_modules/
+.git/
+# Exclude all test files
+__tests__/
+# Exclude all files ending with .test.js
+*.test.js
