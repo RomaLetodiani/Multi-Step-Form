@@ -4,15 +4,23 @@ import useAuthStore from '../../../../Stores/Auth/UseAuthStore'
 
 const FirstStep = () => {
   const { user } = useAuthStore()
-  const usernameInput = useInput(() => true, user?.username)
-  const emailInput = useInput(() => true, user?.email)
   const commentInput = useInput()
 
   return (
     <>
-      <Input label="Username" disabled={true} {...usernameInput} />
+      <Input
+        inputClass="cursor-not-allowed"
+        label="Username"
+        disabled={true}
+        value={user?.username}
+      />
       <div className="my-5">
-        <Input label="Email Address" disabled={true} {...emailInput} />
+        <Input
+          inputClass="cursor-not-allowed"
+          label="Email Address"
+          disabled={true}
+          value={user?.email}
+        />
       </div>
       <Input label="Comment (Optional)" {...commentInput} />
     </>

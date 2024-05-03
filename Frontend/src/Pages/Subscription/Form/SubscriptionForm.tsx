@@ -14,7 +14,7 @@ const SubscriptionForm = () => {
   } else if (step === ':4') {
     heading = 'Finishing Up'
   }
-  let paragraph = 'Here is your Username and Email Address, leave a Comment if you would like'
+  let paragraph = 'Here is your Username and Email Address, if you would like leave a Comment'
   if (step === ':2') {
     paragraph = 'You Have the option of monthly or yearly billing'
   } else if (step === ':3') {
@@ -25,7 +25,7 @@ const SubscriptionForm = () => {
 
   return (
     <form>
-      <div className="mb-5 pr-5">
+      <div className="mb-5 md:pr-10">
         <h1>{heading}</h1>
         <p>{paragraph}</p>
       </div>

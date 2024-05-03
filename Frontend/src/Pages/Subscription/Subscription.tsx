@@ -50,11 +50,9 @@ const Subscription = () => {
       )}
       {step && <Outlet />}
 
-      {step && (
-        <Button onClick={() => navigate(-1)} className="absolute bottom-0 left-0">
-          Prev
-        </Button>
-      )}
+      <Button onClick={() => navigate(-1)} className="absolute bottom-0 left-0 z-50">
+        Back
+      </Button>
       <Link to={linkTo}>
         <Button className="absolute bottom-0 right-0">{NextText}</Button>
       </Link>
