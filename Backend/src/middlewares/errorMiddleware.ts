@@ -1,33 +1,29 @@
 import { NextFunction, Request, Response } from 'express'
 
+// Helper function to generate error responses
+const sendErrorResponse = (res: Response, statusCode: number, errorMessage: string) => {
+  res.status(statusCode).json({ message: errorMessage })
+}
+
 const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   // uncomment the following line for Debug mode
   // console.error(err.stack);
 
   let errorMessage = err.message
-  if (err instanceof AuthenticationError) {
-    res.status(401).json({ message: 'Unauthorized: ' + err.message })
-    errorMessage = 'Unauthorized: ' + err.message
-  } else if (err instanceof ValidationError) {
-    res.status(400).json({ message: err.message, field: err.field })
-    errorMessage = 'Validation Error: ' + err.message
-  } else if (err instanceof UserRegistrationError) {
-    res.status(400).json({ message: err.message })
-    errorMessage = 'User registration Error: ' + err.message
-  } else if (err instanceof UserLoginError) {
-    res.status(404).json({ message: err.message })
-    errorMessage = 'User Login Error: ' + err.message
-  } else if (err instanceof UserUpdateError) {
-    res.status(400).json({ message: err.message })
-    errorMessage = 'User Update Error: ' + err.message
-  } else if (err instanceof EmailVerificationError) {
-    res.status(400).json({ message: err.message })
-    errorMessage = 'Email Verification Error: ' + err.message
-  } else if (err instanceof SubscriptionError) {
-    res.status(400).json({ message: err.message })
-    errorMessage = 'User Subscription Error: ' + err.message
-  } else {
-    res.status(500).json({ message: 'Internal Server Error ' })
+  switch (err.name) {
+    case 'AuthenticationError':
+      sendErrorResponse(res, 401, `Unauthorized: ${errorMessage}`)
+      break
+    case 'ValidationError':
+    case 'UserRegistrationError':
+    case 'UserLoginError':
+    case 'UserUpdateError':
+    case 'EmailVerificationError':
+    case 'SubscriptionError':
+      sendErrorResponse(res, 400, `${err.name}: ${errorMessage}`)
+      break
+    default:
+      sendErrorResponse(res, 500, 'Internal Server Error')
   }
   console.error(errorMessage)
 }
