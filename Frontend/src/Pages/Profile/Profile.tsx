@@ -74,17 +74,11 @@ const Profile = () => {
           )}
         </div>
       )}
-      // TODO: Implement the footer for Profile Page on mobile size, see the design in photos
-      <div className="bg-red-500 absolute bottom-0 w-full h-16">
-        <Button className="fixed md:absolute right-32 bottom-5 md:bottom-0">Edit</Button>
+      <Button className="absolute right-28 bottom-0">Edit</Button>
 
-        <Button
-          className="fixed md:absolute right-5 md:right-0 bottom-5 md:bottom-0 bg-danger hover:bg-danger/90"
-          onClick={logout}
-        >
-          Logout
-        </Button>
-      </div>
+      <Button className="absolute right-0 bottom-0 bg-danger hover:bg-danger/90" onClick={logout}>
+        Logout
+      </Button>
     </div>
   )
 }
