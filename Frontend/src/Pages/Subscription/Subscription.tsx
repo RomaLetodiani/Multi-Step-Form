@@ -14,22 +14,22 @@ const Subscription = () => {
       navigate('/profile')
     }
   }, [user])
-  let buttonText = 'Click Here To Subscribe'
+  let NextText = 'Click Here To Subscribe'
   let linkTo = ':1'
 
   if (subscription?.active) {
-    buttonText = 'Unsubscribe'
+    NextText = 'Unsubscribe'
     linkTo = ''
   }
 
   if (step === ':1') {
-    buttonText = 'Next'
+    NextText = 'Next'
     linkTo = ':2'
   } else if (step === ':2') {
-    buttonText = 'Next'
+    NextText = 'Next'
     linkTo = ':3'
   } else if (step === ':3') {
-    buttonText = 'Confirm'
+    NextText = 'Confirm'
     linkTo = '/profile'
   }
 
@@ -50,8 +50,13 @@ const Subscription = () => {
       )}
       {step && <Outlet />}
 
+      {step && (
+        <Button onClick={() => navigate(-1)} className="absolute bottom-0 left-0">
+          Prev
+        </Button>
+      )}
       <Link to={linkTo}>
-        <Button>{buttonText}</Button>
+        <Button className="absolute bottom-0 right-0">{NextText}</Button>
       </Link>
     </div>
   )

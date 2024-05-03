@@ -25,8 +25,10 @@ const SubscriptionForm = () => {
 
   return (
     <form>
-      <h1>{heading}</h1>
-      <p>{paragraph}</p>
+      <div className="mb-5 pr-5">
+        <h1>{heading}</h1>
+        <p>{paragraph}</p>
+      </div>
 
       {step === ':1' && <FirstStep />}
       {step === ':2' && <SecondStep />}
