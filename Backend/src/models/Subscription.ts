@@ -18,7 +18,11 @@ export interface SubscriptionDocument extends Document {
 }
 
 const addOnSchema: Schema = new Schema({
-  name: { type: String, required: true },
+  name: {
+    type: String,
+    required: true,
+    enum: ['Online Service', 'Larger Storage', 'Customizable Profile'],
+  },
   price: { type: Number, required: true },
   description: { type: String, required: true },
 })
