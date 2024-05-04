@@ -31,7 +31,6 @@ const Root = () => {
 
   useEffect(() => {
     isAuthenticated && getDetails()
-    console.log('🚀 ~ useEffect ~ isAuthenticated:', isAuthenticated)
   }, [isAuthenticated])
 
   return (

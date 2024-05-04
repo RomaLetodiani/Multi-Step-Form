@@ -17,7 +17,7 @@ export default {
           secondary: '#6259FF', // Adjust for your secondary color
           accent: '#F9818E', // Can be used for highlights, buttons, etc.
           white: '#fff',
-          text: '#000', // Adjust for good contrast on light background
+          text: '#443EB1', // Adjust for good contrast on light background
         },
         dark: {
           DEFAULT: '#0C111D', // Dark background

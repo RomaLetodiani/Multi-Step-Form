@@ -22,7 +22,7 @@ const Input = ({ label, hasError, errorMessage, focus, inputClass, type, ...rest
     <div className="relative w-full">
       <div className="flex justify-between mb-1">
         {label && (
-          <label className={`text-${theme}-text font-bold`} htmlFor={label}>
+          <label className={`text-${theme}-text smooth font-bold`} htmlFor={label}>
             {label}
           </label>
         )}

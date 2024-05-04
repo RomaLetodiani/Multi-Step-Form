@@ -26,8 +26,8 @@ const SubscriptionForm = () => {
   return (
     <form>
       <div className="mb-5 md:pr-10">
-        <h1>{heading}</h1>
-        <p>{paragraph}</p>
+        <h2 className="text-[clamp(28px,4vw,35px)] leading-snug">{heading}</h2>
+        <p className="opacity-80 text-xs">{paragraph}</p>
       </div>
 
       {step === ':1' && <FirstStep />}
