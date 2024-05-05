@@ -3,6 +3,9 @@ import FirstStep from './Steps/FirstStep'
 import SecondStep from './Steps/SecondStep'
 import ThirdStep from './Steps/ThirdStep'
 import FourthStep from './Steps/FourthStep'
+import useThemeStore from '../../../Stores/Theme/UseThemeStore'
+import { twMerge } from 'tailwind-merge'
+import useMediaQuery from '../../../Hooks/UseMediaQuery'
 
 const SubscriptionForm = () => {
   const { step } = useParams()
@@ -23,8 +26,12 @@ const SubscriptionForm = () => {
     paragraph = 'Double check everything looks correct before confirming'
   }
 
+  const { theme } = useThemeStore()
+  const isMobile = useMediaQuery('(max-width: 767px)')
   return (
-    <form>
+    <form
+      className={twMerge(isMobile && `p-5 z-30 -top-20 w-full absolute bg-${theme} rounded-xl`)}
+    >
       <div className="mb-5 md:pr-10">
         <h2 className="text-[clamp(28px,4vw,35px)] leading-snug">{heading}</h2>
         <p className="opacity-80 text-xs">{paragraph}</p>
