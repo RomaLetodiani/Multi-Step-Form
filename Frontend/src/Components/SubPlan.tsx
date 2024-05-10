@@ -1,8 +1,6 @@
-import arcadeIcon from '../Assets/images/icon-arcade.svg'
-import advIcon from '../Assets/images/icon-advanced.svg'
-import proIcon from '../Assets/images/icon-pro.svg'
 import { twMerge } from 'tailwind-merge'
 import useThemeStore from '../Stores/Theme/UseThemeStore'
+import { advanced, arcade, pro } from '../Assets/images'
 
 type Props = {
   name: 'Arcade' | 'Advanced' | 'Pro'
@@ -25,7 +23,7 @@ const SubPlan = (sub: Props) => {
       <div>
         <img
           className="drop-shadow-sm hover:scale-110 transition-transform duration-300"
-          src={sub.name === 'Arcade' ? arcadeIcon : sub.name === 'Advanced' ? advIcon : proIcon}
+          src={sub.name === 'Arcade' ? arcade : sub.name === 'Advanced' ? advanced : pro}
           alt={`${sub.name} Subscription type icon`}
         />
       </div>
