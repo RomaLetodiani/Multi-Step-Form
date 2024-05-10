@@ -12,7 +12,7 @@ type SubscriptionState = {
 const useSubStore = create<SubscriptionState>((set) => ({
   subscriptionName: 'Advanced',
   setSubscriptionName: (subscriptionName) => set({ subscriptionName }),
-  subscriptionType: 0,
+  subscriptionType: 1,
   setSubscriptionType: (subscriptionType) => set({ subscriptionType }),
   addOnIds: [],
   setAddOnIds: (addOnIds) => set({ addOnIds }),
