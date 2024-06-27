@@ -41,13 +41,13 @@ const Popover = ({ children, content, position }: PopoverProps) => {
 const getPositionClasses = (position?: PopoverProps['position']) => {
   switch (position) {
     case 'top':
-      return 'absolute bottom-full left-1/2 transform-x-[-50%] z-10'
+      return 'absolute bottom-full left-1/2 translate-x-[-50%] z-10'
     case 'bottom':
-      return 'absolute top-full left-1/2 transform-x-[-50%] z-10'
+      return 'absolute top-full left-1/2 translate-x-[-50%] z-10'
     case 'left':
-      return 'absolute top-1/2 right-full transform-y-[-50%] z-10'
+      return 'absolute top-1/2 right-full translate-y-[-50%] z-10'
     case 'right':
-      return 'absolute top-1/2 left-full transform-y-[-50%] z-10'
+      return 'absolute top-1/2 left-full translate-y-[-50%] z-10'
     case 'bottom-left':
       return 'absolute top-full left-0 z-10'
     case 'bottom-right':
